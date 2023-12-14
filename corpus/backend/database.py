@@ -171,3 +171,17 @@ class DBFiller(DBHandler):
         with self.transaction():
             for token in sent.tokens:
                 self.add_token_info(**vars(token), commit=False)
+
+
+class WebDBHandler(DBHandler):
+    def get_pos_tags(self):
+        cur = self.conn.execute("""
+        SELECT *
+        FROM pos""")
+        return cur.fetchall()
+
+    def get_glosses(self):
+        cur = self.conn.execute("""
+        SELECT *
+        FROM gloss""")
+        return cur.fetchall()
