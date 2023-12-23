@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 import os
-from typing import Union, Tuple, Iterable
+from typing import Union, Tuple, Iterable, List
 import sqlite3
 
 
@@ -35,6 +35,15 @@ class DBHandler:
         except Exception as e:
             self.conn.close()
             raise e
+
+    @staticmethod
+    def dict_factory(cursor: sqlite3.Cursor, row):
+        fields = [column[0] for column in cursor.description]
+        return {key: value for key, value in zip(fields, row)}
+
+    @staticmethod
+    def one_column_factory(cursor: sqlite3.Cursor, row):
+        return row[0]
 
 
 class DBFiller(DBHandler):
@@ -184,4 +193,50 @@ class WebDBHandler(DBHandler):
         cur = self.conn.execute("""
         SELECT *
         FROM gloss""")
+        return cur.fetchall()
+
+    def match_stem(self, stem: str) -> Iterable[int]:
+        cur = self.conn.execute("""
+        SELECT token.id
+        FROM stem
+        LEFT JOIN token
+        ON token.stem_id = stem.id
+        WHERE translit = (?)""", (stem,))
+        cur.row_factory = self.one_column_factory
+        return cur.fetchall()
+
+    def select_sentences(self, token_ids: List[int]) -> Iterable[int]:
+        qmark_args = ", ".join("?" for t in token_ids)
+
+        query = f"""
+        SELECT sentence.id
+        FROM sentence
+        JOIN token
+        ON sentence.id = token.sent_id
+        WHERE token.id IN ({qmark_args})"""
+
+        cur = self.conn.execute(query, token_ids)
+        cur.row_factory = self.one_column_factory
+        return cur.fetchall()
+
+    def sentence_context(self, sent_id: int):
+        cur = self.conn.execute("""
+        SELECT sentence.sent
+        FROM sentence
+        WHERE sentence.id = (?) - 1""", (sent_id,))
+        left = cur.fetchone()
+
+        cur = self.conn.execute("""
+                SELECT sentence.sent
+                FROM sentence
+                WHERE sentence.id = (?) + 1""", (sent_id,))
+        right = cur.fetchone()
+        return left, right
+
+    def sent_token_info(self, sent_id: int) -> List[dict]:
+        cur = self.conn.execute("""
+        SELECT * 
+        FROM tokens_view
+        WHERE sent_id = (?)""", (sent_id, ))
+        cur.row_factory = self.dict_factory
         return cur.fetchall()

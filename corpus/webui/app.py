@@ -1,10 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, request
 
 from ..backend.database import WebDBHandler
+from ..backend.search import WordSearch
 from .. import DB_PATH
 
 app = Flask(__name__)
 db = WebDBHandler(DB_PATH)
+search = WordSearch(db)
+
 
 @app.route('/')
 def start_page():
@@ -23,20 +26,18 @@ def read_page():
 
 @app.route('/search', methods=['GET', "POST"])
 def search_page():
-    if request.method == ['GET']:
-        query = request.args
-        print(query)
-        pos = db.get_pos_tags()
-        gloss = db.get_glosses()
-        print(pos, gloss)
-        return redirect(url_for('results'))
-    else:
-        return render_template('search.html', res=())
+    pos = db.get_pos_tags()
+    gloss = db.get_glosses()
+    print(pos, gloss)
+    return render_template('search.html', res=())
 
 
 @app.route('/results', methods=['GET'])
 def results():
-    lemma = ''
-    pos = ''
-    gloss = ''
-    return render_template('search.html', res=([lemma], [pos], [gloss])) #или как там
+    if request.method == 'GET':
+        res = search.search(request.args)
+        print(res)
+        lemma = ''
+        pos = ''
+        gloss = ''
+        return render_template('search.html', res=([lemma], [pos], [gloss])) #или как там
