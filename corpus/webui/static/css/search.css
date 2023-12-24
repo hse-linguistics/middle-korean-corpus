@@ -236,3 +236,70 @@
     align-self: center;
   }
 }
+/* from math*/
+.result-row1 {
+  flex: 0 0 auto;
+  width: 80%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+.result-col1 {
+  flex: 0 0 auto;
+  width: fit-content;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  margin-right: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+
+/* for hangul */
+.search-text11 {
+  font-family: 'ebs_hunminjeongeum_rregular';
+}
+
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  cursor: help;
+  display:block;
+  align-self: center;
+}
+
+.tooltip::before {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease-in-out;
+}
+
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip::before {
+  content: attr(data-tooltip);
+  z-index: 2;
+  width: auto;
+  color: #fff;
+  background: rgba(0,0,0, .7);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.tooltip--top::before {
+  transform: translateY(-100%);
+}
+
+.tooltip--bottom::before {
+  transform: translateY(65%);
+}
+
+.context {
+    display:none;
+    color: #666;
+}

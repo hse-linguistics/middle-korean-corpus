@@ -26,18 +26,13 @@ def read_page():
 
 @app.route('/search', methods=['GET', "POST"])
 def search_page():
-    pos = db.get_pos_tags()
-    gloss = db.get_glosses()
-    print(pos, gloss)
     return render_template('search.html', res=())
 
 
 @app.route('/results', methods=['GET'])
 def results():
     if request.method == 'GET':
+        query = request.args
         res = search.search(request.args)
         print(res)
-        lemma = ''
-        pos = ''
-        gloss = ''
-        return render_template('search.html', res=([lemma], [pos], [gloss])) #или как там
+        return render_template('search.html', res=res, q=query)

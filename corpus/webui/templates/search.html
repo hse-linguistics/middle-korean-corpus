@@ -29,6 +29,9 @@
 
       }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/scripts.js"></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
@@ -40,7 +43,6 @@
     />
   </head>
   <body>
-    <div>
       <div class="search-container">
         <header data-role="Header" class="header-header header-root-class-name">
           <a href="/" class="header-navlink">
@@ -62,17 +64,42 @@
             />
             <button type="submit" class="search-button button">Search</button>
           </form>
+          <h1 class="search-text">Search for: {{q["query"]}}</h1>
+          {% for i in range(10) %}
           <div class="search-examples">
-            {% for example in res %}
-              {% for info in example %}
-            <div class="search-ex1">
-              <h1 class="search-text">info.name</h1>
-              <span class="search-text1">
-                info.text
-              </span>
+            {% for sent in res %}
+            <div class="result-row1 search-ex1" id="{{sent.sent_id}}">
+
+                  {% if sent.left%}
+                  <div class="result-col1" id="context_b">
+                    <div class="result-container-nf-query">
+                      <span class="search-text11 context">{{sent.left}}</span>
+                    </div>
+                    <div class="result-container-pos-query">
+                      <span class="result-text08"></span>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  {% for word in sent.tokens %}
+                <div class="result-col1">
+                  <div class="result-container-nf-query">
+                    <abbr class="tooltip tooltip--top" data-tooltip="{{word.translations}}" style="color: {{word.color}};">
+                      <span class="search-text11">{{word.hangul}}</span>
+                    </abbr>
+                  </div>
+                  <div class="result-container-pos-query">
+                    <abbr class="tooltip tooltip--bottom" data-tooltip="{{word.glosses}}">
+                    <span class="search-text1" style="color: {{word.color}};">{{word.translit}}</span>
+                    </abbr>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+
+            {% endfor %}
             </div>
-            {% endfor %}
-            {% endfor %}
+          {% endfor %} <!-- for multiple sentences -->
           </div>
         </div>
         <footer class="footer-footer">
@@ -80,7 +107,5 @@
             <span>2023, vika knyazkova, almira samigullina</span>
           </span>
         </footer>
-      </div>
-    </div>
   </body>
 </html>
