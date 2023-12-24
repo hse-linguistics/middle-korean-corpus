@@ -26,7 +26,7 @@ def read_page():
 
 @app.route('/search', methods=['GET', "POST"])
 def search_page():
-    return render_template('search.html', res=())
+    return render_template('search.html', res=(), q=())
 
 
 @app.route('/results', methods=['GET'])
