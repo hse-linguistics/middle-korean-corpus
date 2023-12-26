@@ -31,7 +31,6 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="static/js/scripts.js"></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
@@ -64,42 +63,36 @@
             />
             <button type="submit" class="search-button button">Search</button>
           </form>
+
+           {% if q%}
           <h1 class="search-text">Search for: {{q["query"]}}</h1>
-          {% for i in range(10) %}
+
           <div class="search-examples">
+          {% for i in range(10) %} <!-- for multiple sents  -->
             {% for sent in res %}
             <div class="result-row1 search-ex1" id="{{sent.sent_id}}">
-
-                  {% if sent.left%}
-                  <div class="result-col1" id="context_b">
-                    <div class="result-container-nf-query">
-                      <span class="search-text11 context">{{sent.left}}</span>
-                    </div>
-                    <div class="result-container-pos-query">
-                      <span class="result-text08"></span>
-                    </div>
-                  </div>
-                  {% endif %}
-
+            <p class="result-text-sent">
+                {% if sent.left%}
+                <span id="context_b" class="text-in-bubble text-query context">{{sent.left[0]}}</span>
+                {% endif %}
+                <span class="text-query">
                   {% for word in sent.tokens %}
-                <div class="result-col1">
-                  <div class="result-container-nf-query">
-                    <abbr class="tooltip tooltip--top" data-tooltip="{{word.translations}}" style="color: {{word.color}};">
-                      <span class="search-text11">{{word.hangul}}</span>
-                    </abbr>
-                  </div>
-                  <div class="result-container-pos-query">
-                    <abbr class="tooltip tooltip--bottom" data-tooltip="{{word.glosses}}">
-                    <span class="search-text1" style="color: {{word.color}};">{{word.translit}}</span>
-                    </abbr>
-                  </div>
-                </div>
-              {% endfor %}
-              </div>
-
-            {% endfor %}
+                  <abbr class="tooltip tooltip--top" data-tooltip="{{word.glosses}}">
+                    <abbr class="tooltip tooltip--bottom" data-tooltip="{{word.translit}}" style="color: {{word.color}};">{{word.hangul}}
+                    </abbr></abbr>
+                  {%endfor%}
+                  .
+                </span>
+                {% if sent.right%}
+                <span id="context_a" class="text-in-bubble text-query context">{{sent.right[0]}}</span>
+                {% endif %}
+                <span onclick="ShowHideContext()" class="context-btn text-in-bubble"><...></span>
+              </p>
             </div>
-          {% endfor %} <!-- for multiple sentences -->
+              {% endfor %}
+              {% endfor %} <!-- for multiple sents  -->
+            </div>
+          {% endif %}
           </div>
         </div>
         <footer class="footer-footer">
@@ -107,5 +100,21 @@
             <span>2023, vika knyazkova, almira samigullina</span>
           </span>
         </footer>
+  <script>
+        var acc = document.getElementsByClassName("context-btn");
+        var i;
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                let next = this.previousElementSibling;
+
+                while (next.classList.contains('text-query')) {
+                    if (next.classList.contains('context')) {
+                        next.classList.toggle('show');
+                        }
+                    next = next.previousElementSibling;
+                }
+            });
+        }
+    </script>
   </body>
 </html>

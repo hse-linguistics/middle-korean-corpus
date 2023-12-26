@@ -184,8 +184,6 @@
   display: flex;
   align-items: flex-start;
   padding-top: var(--dl-space-space-twounits);
-  padding-left: var(--dl-space-space-oneandhalfunits);
-  padding-right: var(--dl-space-space-oneandhalfunits);
   flex-direction: column;
   padding-bottom: var(--dl-space-space-twounits);
 }
@@ -239,7 +237,6 @@
 /* from math*/
 .result-row1 {
   flex: 0 0 auto;
-  width: 80%;
   display: flex;
   align-items: flex-start;
   flex-direction: row;
@@ -260,46 +257,22 @@
   font-family: 'ebs_hunminjeongeum_rregular';
 }
 
-
-/* Tooltip */
-.tooltip {
-  position: relative;
-  cursor: help;
-  display:block;
-  align-self: center;
-}
-
-.tooltip::before {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s ease-in-out;
-}
-
-.tooltip:hover::before {
-  opacity: 1;
-  visibility: visible;
-}
-
-.tooltip::before {
-  content: attr(data-tooltip);
-  z-index: 2;
-  width: auto;
-  color: #fff;
-  background: rgba(0,0,0, .7);
-  border-radius: 5px;
-  padding: 5px;
-}
-
-.tooltip--top::before {
-  transform: translateY(-100%);
-}
-
-.tooltip--bottom::before {
-  transform: translateY(65%);
-}
-
 .context {
     display:none;
     color: #666;
+}
+.show {
+    display: inline;
+}
+.context-btn {
+    margin-right: var(--dl-space-space-oneandhalfunits);
+}
+.context-btn:hover {
+    cursor:pointer;
+    width: fit-content;
+}
+.result-text-sent {
+  width: 95%;
+  line-height: 1.5;
+  padding-right: var(--dl-space-space-unit);
 }
