@@ -5,6 +5,7 @@ from typing import Iterable, List, Optional
 @dataclass
 class Stem:
     translit: str
+    translit_syl: str
     en: str
     ru: str
 

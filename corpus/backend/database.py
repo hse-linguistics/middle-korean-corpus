@@ -128,8 +128,8 @@ class DBFiller(DBHandler):
                   stem: Stem,
                   commit: bool = True) -> Tuple[int, ]:
         cur = self.conn.execute("""
-        INSERT INTO stem (translit, en, ru) 
-        VALUES (:translit, :en, :ru)
+        INSERT INTO stem (translit, translit_syl, en, ru) 
+        VALUES (:translit, :translit_syl, :en, :ru)
         RETURNING id""", vars(stem))
         if commit:
             self.conn.commit()

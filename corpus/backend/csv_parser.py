@@ -1,13 +1,15 @@
 import os
 from typing import Union
 
+import pandas as pd
+from hypua2jamo import translate
+
 from .datamodels import Sentence, Token, Stem, Morph
 from .database import DBFiller
 
-import pandas as pd
-
 
 class AnnotParser:
+
     def __init__(self,
                  address_col: str,
                  token_col: str,
@@ -33,14 +35,15 @@ class AnnotParser:
         data = pd.read_csv(filepath, header=0, keep_default_na=False)
         for i, idx in data.groupby(self.address).groups.items():
             sentence_info = data.loc[idx]
-            sentence = Sentence(i, ' '.join(sentence_info[self.token]))
+            sentence = Sentence(i, translate(' '.join(sentence_info[self.token])))
             for j, row in sentence_info.iterrows():
                 token = Token(
                     sent_address=i,
                     pos_in_sent=j,
-                    hangul=row[self.token],
+                    hangul=translate(str(row[self.token])),
                     stem=Stem(
-                        row[self.stem],
+                        translit=''.join(row[self.stem].split('-')),
+                        translit_syl=row[self.stem],
                         en=row[self.en],
                         ru=row[self.ru]),
                     pos=row[self.pos],
