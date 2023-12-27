@@ -1,3 +1,15 @@
+@import url(https://db.onlinewebfonts.com/c/bf38dca03ab5ac016080d1327d4e0b41?family=Gulim+Old+Hangul+Jamo);
+
+@font-face {
+    font-family: "Gulim Old Hangul Jamo";
+    src: url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.eot");
+    src: url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.svg#Gulim Old Hangul Jamo")format("svg");
+}
+
 .header-header {
   width: 100%;
   display: flex;
@@ -252,11 +264,6 @@
   flex-direction: column;
 }
 
-/* for hangul */
-.search-text11 {
-  font-family: 'ebs_hunminjeongeum_rregular';
-}
-
 .context {
     display:none;
     color: #666;
@@ -275,4 +282,41 @@
   width: 95%;
   line-height: 1.5;
   padding-right: var(--dl-space-space-unit);
+}
+
+.desc:hover {
+  color: #FF9470;
+  cursor:help;
+}
+/* hangul font */
+.text-query-res {
+  margin: 0 3px 0 3px;
+  font-family: "Gulim Old Hangul Jamo";
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  width: fit-content;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  visibility: hidden;
+  background-color: #343434;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
