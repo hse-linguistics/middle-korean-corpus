@@ -1,13 +1,13 @@
-@import url(https://db.onlinewebfonts.com/c/bf38dca03ab5ac016080d1327d4e0b41?family=Gulim+Old+Hangul+Jamo);
-
 @font-face {
-    font-family: "Gulim Old Hangul Jamo";
-    src: url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.eot");
-    src: url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/bf38dca03ab5ac016080d1327d4e0b41.svg#Gulim Old Hangul Jamo")format("svg");
+  font-family: 'Source Han Sans KR';
+  src: local('Source Han Sans KR'),
+  url('SourceHanSansHWK-Regular.otf') format('opentype');
+}
+
+/* hangul font */
+.text-query-res {
+  margin: 0 3px 0 3px;
+  font-family: font-family: 'AGHunminjeongeum', 'Source Han Sans KR', 'Noto Sans CJK KR', '함초롬돋움 LVT','HCR Dotum LVT','함초롬바탕 LVT', 'HCR Batang LVT','본고딕','Source Han Sans K','본고딕 KR','NanumBarunGothic YetHangul', '나눔바른고딕 옛한글','나눔명조 옛한글','NanumMyeongjo YetHangul','은 바탕','Un Batang','돋움 옛한글', 'Dotum Old Hangul','바탕 옛한글','Batang Old Hangul','굴림 옛한글','NewGulim Old Hangul','궁서 옛한글', 'Gungsuh Old Hangul','맑은 고딕','Malgun Gothic','함초롬돋움','HCR Dotum','함초롬바탕','HCR Batang', 'Code2000',sans-serif;
 }
 
 .header-header {
@@ -287,11 +287,6 @@
 .desc:hover {
   color: #FF9470;
   cursor:help;
-}
-/* hangul font */
-.text-query-res {
-  margin: 0 3px 0 3px;
-  font-family: "Gulim Old Hangul Jamo";
 }
 
 /* Tooltip */

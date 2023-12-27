@@ -14,7 +14,7 @@
     </style>
     <style data-tag="default-style-sheet">
       html {
-        font-family: Inter;
+        font-family: Inter, 'Source Han Sans KR';
         font-size: 16px;
       }
 
@@ -69,7 +69,6 @@
           <h1 class="search-text">Search for: {{q["query"]}}</h1>
 
           <div class="search-examples">
-          {% for i in range(10) %} <!-- for multiple sents  -->
             {% for sent in res %}
             <div class="result-row1 search-ex1" id="{{sent.sent_id}}">
               <div class="result-text-sent">
@@ -99,11 +98,10 @@
                 {% if sent.right%}
                 <div class="text-query context text-query-res "><span id="context_a">{{sent.right[0]}}. </span></div>
                 {% endif %}
-                <span onclick="ShowHideContext()" class="context-btn"><...></span>
+                <span class="context-btn"><...></span>
               </div>
             </div>
               {% endfor %}
-              {% endfor %} <!-- for multiple sents  -->
             </div>
           {% endif %}
           </div>
