@@ -205,6 +205,40 @@ class WebDBHandler(DBHandler):
         cur.row_factory = self.one_column_factory
         return cur.fetchall()
 
+    def match_stem2(self, stem: str) -> Iterable[Tuple[int, int, int]]:
+        cur = self.conn.execute("""
+        SELECT token.sent_id, token.pos_in_sent, token.id
+        FROM stem
+        LEFT JOIN token
+        ON token.stem_id = stem.id
+        WHERE translit = (?)""", (stem,))
+        return cur.fetchall()
+
+    def match_pos(self, pos_id: int) -> Iterable[Tuple[int, int, int]]:
+        cur = self.conn.execute("""
+        SELECT token.sent_id, token.pos_in_sent, token.id
+        FROM token
+        WHERE token.pos_id = (?)""", (pos_id,))
+        return cur.fetchall()
+
+    def match_glosses(self, gloss_ids: List[int]) -> Iterable[Tuple[int, int, int]]:
+        qmark_glosses = ", ".join("?" for _ in gloss_ids)
+        n_glosses = len(gloss_ids)
+        query = f"""
+        SELECT token.sent_id, token.pos_in_sent, token.id
+        FROM (
+            SELECT grammar.token_id as token_id, COUNT(DISTINCT allomorph.gloss_id) as intersec
+            FROM grammar
+            LEFT JOIN allomorph 
+            ON allomorph.id = grammar.allomorph_id 
+            WHERE allomorph.gloss_id IN ({qmark_glosses})
+            GROUP BY grammar.token_id
+            HAVING intersec = {n_glosses}) AS matches
+        JOIN token
+        ON token.id = matches.token_id"""
+        cur = self.conn.execute(query, gloss_ids)
+        return cur.fetchall()
+
     def select_sentences(self, token_ids: List[int]) -> Iterable[int]:
         qmark_args = ", ".join("?" for t in token_ids)
 

@@ -26,6 +26,9 @@ def read_page():
 
 @app.route('/search', methods=['GET', "POST"])
 def search_page():
+    available_pos_tags = db.get_pos_tags()
+    available_glosses = db.get_glosses()
+    print(available_pos_tags, available_glosses)
     return render_template('search.html', res=(), q=())
 
 
@@ -33,6 +36,23 @@ def search_page():
 def results():
     if request.method == 'GET':
         query = request.args
-        res = search.search(request.args)
-        print(res)
+
+        ex_query5 = {
+            'words': {
+                '0': {
+                    'stem': None,
+                    'pos': None,
+                    'glosses': [3]
+                },
+                '1': {
+                    'stem': None,
+                    'pos': None,
+                    'glosses': [6]
+                },
+            },
+            'constraints': {
+                ('0', '1'): {'lindist': (1, 1)}
+            }
+        }
+        res = search.search(ex_query5)
         return render_template('search.html', res=res, q=query)
