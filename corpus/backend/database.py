@@ -195,6 +195,12 @@ class WebDBHandler(DBHandler):
         FROM gloss""")
         return cur.fetchall()
 
+    def get_stems(self):
+        cur = self.conn.execute("""
+        SELECT id, translit
+        FROM stem""")
+        return cur.fetchall()
+
     def match_stem(self, stem: str) -> Iterable[int]:
         cur = self.conn.execute("""
         SELECT token.id

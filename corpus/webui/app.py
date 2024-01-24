@@ -28,7 +28,8 @@ def read_page():
 def search_page():
     available_pos_tags = db.get_pos_tags()
     available_glosses = db.get_glosses()
-    print(available_pos_tags, available_glosses)
+    stems = db.get_stems()
+    print(available_pos_tags, available_glosses, stems)
     return render_template('search.html', res=(), q=())
 
 
