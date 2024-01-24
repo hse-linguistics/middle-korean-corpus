@@ -32,9 +32,9 @@ class AnnotParser:
 
     def parse(self,
               filepath: Union[os.PathLike, str]):
-        data = pd.read_csv(filepath, header=0, keep_default_na=False)
+        data = pd.read_csv(filepath, sep='\t', header=0, keep_default_na=False)
         for i, idx in data.groupby(self.address).groups.items():
-            sentence_info = data.loc[idx]
+            sentence_info = data.loc[idx].reset_index(drop=True)
             sentence = Sentence(i, translate(' '.join(sentence_info[self.token])))
             for j, row in sentence_info.iterrows():
                 token = Token(
@@ -63,7 +63,7 @@ class AnnotParser:
 if __name__ == '__main__':
     from corpus import DB_PATH
 
-    example_path = '/Users/viktoriaknazkova/Desktop/me/study/github_repos/middle-korean-corpus/data/korean_example.csv'
+    example_path = '/Users/viktoriaknazkova/Desktop/me/study/github_repos/middle-korean-corpus/data/korean_example.tsv'
     parser = AnnotParser(address_col='ADDRESS',
                          token_col='KOR',
                          stem_col='ОСНОВА',
